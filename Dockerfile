@@ -19,4 +19,5 @@ RUN pip install -r requirements.txt
 
 USER user
 
-CMD ["gunicorn","-b","0.0.0.0:8000", "stud_lab.wsgi:application"]
+# CMD ["gunicorn","--control-socket","/tmp/stud_lab.ctl","-b","0.0.0.0:8000", "--worker-tmp-dir", "/tmp", "stud_lab.wsgi:application"]
+CMD ["./manage.py","runserver","0.0.0.0:8000"]
