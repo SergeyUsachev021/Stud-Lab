@@ -1,5 +1,7 @@
 FROM python:3.12-slim
 
+ARG UID=1000
+
 SHELL ["/bin/bash", "-c"]
 
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -7,7 +9,7 @@ ENV PYTHONUNBUFFERED=1
 
 RUN pip install --upgrade pip
 
-RUN useradd -rms /bin/bash user
+RUN useradd -rms /bin/bash -u $UID user
 
 WORKDIR /user
 

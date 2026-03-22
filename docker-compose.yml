@@ -1,11 +1,15 @@
 services:
   web:
-    build: .
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
     command: sh -c "./manage.py migrate && ./manage.py runserver 0.0.0.0:8000"
     ports:
       - "127.0.0.1:8000:8000"
     volumes:
       - .:/user
+      - /user/venv
     env_file:
       - .env
     depends_on:
