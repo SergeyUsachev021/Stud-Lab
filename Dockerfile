@@ -11,14 +11,16 @@ RUN pip install --upgrade pip
 
 RUN useradd -rms /bin/bash -u $UID user
 
-WORKDIR /user
+WORKDIR /app
 
-RUN mkdir /user/static && mkdir /user/media && chown -R user:user /user && chmod 755 /user
+RUN mkdir /app/static && mkdir /app/media && chmod 755 /app
+
+COPY --chown=user:user requirements.txt .
+
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=user:user . .
 
-RUN pip install -r requirements.txt
-
 USER user
 
-CMD ["gunicorn","--control-socket","/tmp/stud_lab.ctl","-b","0.0.0.0:8000", "--worker-tmp-dir", "/tmp", "stud_lab.wsgi:application"]
+CMD ["gunicorn","-b","0.0.0.0:8000", "--worker-tmp-dir", "/tmp", "stud_lab.wsgi:application"]
