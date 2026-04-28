@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'djoser',
+    'drf_spectacular',
 
     'apps.users'
 ]
@@ -97,10 +98,16 @@ DATABASES = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
-
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Mentora API',
+    'DESCRIPTION': 'Платформа для менторства с лабораторными работами',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
