@@ -66,7 +66,7 @@ ROOT_URLCONF = 'stud_lab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -101,6 +101,16 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+DJOSER = {
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SERIALIZERS': {},
+    'EMAIL': {
+        'activation': 'apps.users.email.AwesomeActivationEmail',
+    }
+}
+
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Mentora API',
@@ -146,3 +156,12 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 AUTH_USER_MODEL = 'users.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'ment0ra@yandex.ru'
+EMAIL_HOST_PASSWORD = 'aukkotzsefvffnqc' # Пароль приложения
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
