@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 class User(AbstractUser):
-    pass
+    yandex_id = models.BigIntegerField(blank=True, null=True)
 
 class BaseProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
