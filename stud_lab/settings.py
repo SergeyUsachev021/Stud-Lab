@@ -43,6 +43,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'djoser',
+    'drf_spectacular',
+
+    'apps.users'
 ]
 
 MIDDLEWARE = [
@@ -60,7 +66,7 @@ ROOT_URLCONF = 'stud_lab.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,7 +95,29 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
 
+DJOSER = {
+    'SEND_ACTIVATION_EMAIL': True,
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SERIALIZERS': {},
+    'EMAIL': {
+        'activation': 'apps.users.email.AwesomeActivationEmail',
+    }
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Mentora API',
+    'DESCRIPTION': 'Платформа для менторства с лабораторными работами',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -126,3 +154,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+AUTH_USER_MODEL = 'users.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_SSL = True
+
+EMAIL_HOST_USER = 'ment0ra@yandex.ru'
+EMAIL_HOST_PASSWORD = 'aukkotzsefvffnqc' # Пароль приложения
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
