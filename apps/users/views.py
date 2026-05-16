@@ -10,6 +10,7 @@ from models import User
 
 class YandexAuthorizeView(APIView):
     permission_classes = [AllowAny]
+    authentication_classes = []
 
     def get(self, request):
         auth_header = request.META.get('HTTP_AUTHORIZATION', '')
