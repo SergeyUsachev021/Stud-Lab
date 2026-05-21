@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from requests import get
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from models import User
+from .models import User
 
 
 class YandexAuthorizeView(APIView):

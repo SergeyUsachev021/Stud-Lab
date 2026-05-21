@@ -26,6 +26,7 @@ urlpatterns = [
     re_path(r'^auth/', include('djoser.urls.jwt')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # Optional UI:
+    #чтобы открыть свагер для эндопинтов в нашем проекте
     path('api/schema/swagger-ui/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
