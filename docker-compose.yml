@@ -1,1 +1,47 @@
-services:  web:    build:      context: .      args:        UID: ${UID:-1000}    command: sh -c "./manage.py runserver 0.0.0.0:8000"    ports:      - "127.0.0.1:8000:8000"    volumes:      - .:/app      - web_venv_mask:/app/venv    env_file:      - .env    depends_on:      db:        condition: service_healthy        restart: true    networks:      stud_lab_network:  db:    image: postgres:18.3    volumes:      - stud_lab_db:/var/lib/postgresql/    env_file:      - .env    healthcheck:      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]      interval: 10s      retries: 5      start_period: 30s      timeout: 10s    networks:      stud_lab_network:networks:  stud_lab_network:    driver: bridge    ipam:      config:        - subnet: "172.20.20.0/24"volumes:  stud_lab_db:  web_venv_mask:
+services:
+  web:
+    build:
+      context: .
+      args:
+        UID: ${UID:-1000}
+    command: sh -c "./manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - .:/app
+      - web_venv_mask:/app/venv
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+        restart: true
+    networks:
+      stud_lab_network:
+
+
+  db:
+    image: postgres:18.3
+    volumes:
+      - stud_lab_db:/var/lib/postgresql/
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+    networks:
+      stud_lab_network:
+
+networks:
+  stud_lab_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "172.20.20.0/24"
+
+volumes:
+  stud_lab_db:
+  web_venv_mask:
