@@ -31,6 +31,9 @@ class Lab(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     verified = models.BooleanField(default=False)
 
+    def __str__(self):
+        return f"{self.university} {self.author}: {self.name}"
+
 class LabFile(models.Model):
     lab = models.ForeignKey(Lab, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='lab_files/')

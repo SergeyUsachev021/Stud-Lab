@@ -19,6 +19,8 @@ from django.urls import path, re_path, include
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 from apps.users.views import YandexAuthorizeView
+from apps.labs.views import LabListView
+from apps.labs.views import LabDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,4 +33,6 @@ urlpatterns = [
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     path('api/yandex-auth/', YandexAuthorizeView.as_view()),
+    path('api/labs/', LabListView.as_view()),
+    path('api/labs/<int:pk>', LabDetailView.as_view()),
 ]
