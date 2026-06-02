@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.conf import settings
 
 def validate_course(value):
     if (value > 6) or (value < 1): raise ValidationError("Курс может быть 1-6")
@@ -34,3 +35,33 @@ class Lab(models.Model):
 class LabFile(models.Model):
     lab = models.ForeignKey(Lab, related_name='files', on_delete=models.CASCADE)
     file = models.FileField(upload_to='lab_files/')
+
+    def __str__(self):
+        return self.file.name
+
+class ArchivedLab(models.Model):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='archived_labs',
+    )
+    lab = models.ForeignKey(
+        Lab,
+        on_delete=models.CASCADE,
+        related_name='archive_items',
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'lab'],
+                name='unique_archived_lab_per_user',
+            ),
+        ]
+        verbose_name = 'Лабораторная в архиве'
+        verbose_name_plural = 'Архив лабораторных'
+
+    def __str__(self):
+        return f'{self.user}: {self.lab}'
