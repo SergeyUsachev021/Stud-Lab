@@ -31,4 +31,6 @@ urlpatterns = [
     path('api/schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
     path('api/yandex-auth/', YandexAuthorizeView.as_view()),
+
+    path('api/', include('apps.labs.urls')),
 ]
